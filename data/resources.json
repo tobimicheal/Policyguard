@@ -1,0 +1,16 @@
+{
+  "payments-supplier-upload": {
+    "owner_team": "payments",
+    "public_read": false,
+    "public_write": false,
+    "encryption_enabled": true,
+    "data_classification": "confidential"
+  },
+  "analytics-export": {
+    "owner_team": "analytics",
+    "public_read": true,
+    "public_write": false,
+    "encryption_enabled": true,
+    "data_classification": "confidential"
+  }
+}
