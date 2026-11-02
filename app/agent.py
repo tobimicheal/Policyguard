@@ -151,10 +151,14 @@ async def main():
 
         configuration = json.loads(tool_text)
 
-        if configuration.get("status") != "success":
-            print("\nResource not found. No assessment performed.")
+        if configuration.get("status") == "denied":
+            print("\nACCESS DENIED: Current team cannot access this resource.")
+            print("No resource configuration returned. No assessment performed.")
             return
 
+        if configuration.get("status") != "success":
+            print("\nResource unavailable. No assessment performed.")
+            return
         messages.append(message)
         messages.append({
             "role": "tool",
