@@ -2,7 +2,9 @@ import argparse
 from contextlib import closing
 from datetime import datetime, timezone
 
+from app.exception_audit import record_event
 from app.exception_store import connect, initialise
+
 
 REVIEWER = "local-demo-security-reviewer"
 
@@ -44,7 +46,9 @@ def main():
     print(f"\nProposed controls:\n{row['proposed_controls']}")
     print("\nApproval records a decision only; it changes no resources.")
 
-    decision = input("\nType approve, reject, or cancel: ").strip().lower()
+    decision = input(
+        "\nType approve, reject, or cancel: "
+    ).strip().lower()
 
     if decision not in {"approve", "reject"}:
         print("Cancelled. No decision recorded.")
@@ -61,7 +65,8 @@ def main():
     status = "approved" if decision == "approve" else "rejected"
     reviewed_at = datetime.now(timezone.utc).isoformat()
 
-    # Match the exact request contents displayed to the reviewer.
+    # Save the decision and audit event in the same transaction.
+    # Only update the exact pending request shown to the reviewer.
     with closing(connect()) as connection:
         with connection:
             cursor = connection.execute(
@@ -96,6 +101,14 @@ def main():
             if cursor.rowcount != 1:
                 print("Request changed or was reviewed. Reopen it.")
                 return
+
+            record_event(
+                connection,
+                row["request_id"],
+                REVIEWER,
+                "review_exception",
+                status,
+            )
 
     print(f"\nDecision recorded: {status}")
     print(f"Reviewer: {REVIEWER}")
