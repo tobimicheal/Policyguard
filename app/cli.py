@@ -10,7 +10,18 @@ question = input("Ask PolicyGuard: ").strip()
 if not question:
     raise SystemExit("Please enter a question.")
 
-matches = search_policies(question)
+try:
+    matches = search_policies(question)
+except HTTPError as error:
+    raise SystemExit(f"Ollama returned HTTP {error.code} during retrieval.")
+except URLError:
+    raise SystemExit(
+        "Cannot connect to Ollama. Open the Ollama app and retry."
+    )
+except TimeoutError:
+    raise SystemExit(
+        "Policy retrieval took too long. Please retry."
+    )
 
 if not matches:
     raise SystemExit(
