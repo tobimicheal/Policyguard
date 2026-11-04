@@ -176,6 +176,17 @@ The project was tested with Python 3.12.6, Ollama 0.40.13, and MCP Python SDK 2.
 
 It uses `qwen3:4b-instruct` for responses and tool selection, and `nomic-embed-text` for embeddings. Model tags can change, so outputs and attack behaviour may vary over time.
 
+### Download the project
+
+Open Terminal and run:
+
+```bash
+git clone https://github.com/tobimicheal/Policyguard.git
+cd Policyguard
+```
+
+This downloads the project and moves you into its folder.
+
 ### 1. Prepare Python
 
 Open a terminal in the repository directory and run:
