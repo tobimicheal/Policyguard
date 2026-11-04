@@ -201,7 +201,10 @@ The virtual environment keeps the project's Python packages separate from other 
 
 ### 2. Prepare the local models
 
-Install and start Ollama separately. Then download both models:
+Download and install [Ollama](https://ollama.com/download).
+On macOS, open the Ollama app and leave it running.
+
+Then return to Terminal and download the language model and embedding model:
 
 ```bash
 ollama pull qwen3:4b-instruct
