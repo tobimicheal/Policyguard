@@ -347,8 +347,7 @@ The attack maps to **OWASP Top 10 for LLM Applications (2025), LLM01: Prompt Inj
 
 The prompt-injection experiment demonstrates the distinction between model behaviour and enforced permissions: the model still selected the wrong resource, but the hardened tool denied the cross-team lookup before returning configuration data.
 
-These controls demonstrate application-level security in a local prototype. Production identity, isolation, and audit-protection requirements are documented under **What remains outside this project's scope**.
-
+These controls demonstrate application-level security in a local prototype. 
 ## What is logged
 
 | Location | What it contains |
