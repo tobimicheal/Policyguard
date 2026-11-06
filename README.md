@@ -329,17 +329,23 @@ For the full MCP discovery output used in the screenshots:
 python -m app.test_mcp
 ```
 
-## Security choices and their trade-offs
+## Security controls implemented
 
-| Choice | Why I used it | What it does not solve |
+PolicyGuard uses layered controls to restrict tool execution, enforce resource permissions, separate request creation from review, and record decisions. These checks are implemented in application code rather than relying solely on the model following instructions.
+
+| Control | Implementation | Security purpose |
 | --- | --- | --- |
-| Check resource ownership in the tool | The model cannot bypass the check just by requesting another team's resource | Real user authentication or redirection within an allowed team |
-| Allow only known tools and expected arguments | Limit what model proposals can execute | A valid call can still target the wrong permitted resource |
-| Require explicit submission confirmation | Give the user a chance to inspect a proposed write | A user may confirm misleading content; direct clients bypass this UI step |
-| Create pending requests only | Keep approval outside the agent's tool permissions | Isolation from someone with direct local database access |
-| Match the displayed request during review updates | Avoid recording a decision on a changed or already-reviewed request | Direct database manipulation |
-| Save lifecycle changes and audit events together | Avoid committing those changes without their corresponding audit records | Tamper-resistant storage or complete event coverage |
-| Use local models and fictional resource data | Make the project runnable without paid API credits or cloud changes | Production performance, real IAM, or cloud integration |
+| Server-side resource authorization | The tool checks resource ownership against the fixed demo team before returning configuration data. | Blocks cross-team access even when prompt injection redirects the model's tool call. |
+| Restricted tool execution | The agent accepts only allowlisted tools and validates their expected arguments. | Limits the operations model-generated requests can execute. |
+| Explicit submission confirmation | The agent displays the exact request and requires the user to type `SUBMIT` before invoking creation. | Gives the user a review point before this interface writes a request. |
+| Separation of creation and approval | The creation tool stores requests as pending and exposes no approval capability or reviewer-selection fields. | Prevents the agent from approving requests through its available tools. |
+| Review integrity checks | The reviewer confirms the full request ID; the update checks pending status and matches the displayed request contents. | Prevents a review decision from being applied to changed or already-reviewed content through the reviewer workflow. |
+| Transactional audit recording | Request creation and review updates share database transactions with their corresponding audit events. | Keeps lifecycle changes and their audit records consistent. |
+| Safe testing environment | Local models operate on fictional policies and resource configurations, without cloud-changing tools. | Enables attack testing without exposing real customer data or modifying production resources. |
+
+The prompt-injection experiment demonstrates the distinction between model behaviour and enforced permissions: the model still selected the wrong resource, but the hardened tool denied the cross-team lookup before returning configuration data.
+
+These controls demonstrate application-level security in a local prototype. Production identity, isolation, and audit-protection requirements are documented under **What remains outside this project's scope**.
 
 ## What is logged
 
