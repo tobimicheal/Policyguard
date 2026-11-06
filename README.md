@@ -58,7 +58,7 @@ These are application-level boundaries. The local agent and reviewer still run u
 
 ## Demonstration screenshots
 
-The following examples show the application working, the attack succeeding, and the controls limiting its impact. They document specific observed runs, not guarantees that every answer is correct or every attack is blocked.
+The following examples show the application working, the attack succeeding, and the controls limiting its impact.
 
 ### 1. Answering from the supplied policy
 
@@ -76,11 +76,11 @@ The following examples show the application working, the attack succeeding, and 
 
 **What happened:** The retrieved policy did not specify a retention period. The assistant said so rather than inventing a number.
 
-**Why it matters:** Choosing not to give an unsupported answer is called abstention. This is useful behaviour, but one successful example does not prove the model will always recognise missing evidence.
+**Why it matters:** Choosing not to give an unsupported answer is called abstention. Here, the assistant recognised that the retrieved evidence did not establish a retention period.
 
 ![Missing retention rule](docs/screenshots/01b-rag-no-retention-rule.png)
 
-During development, I also observed incorrect citation matching and misleading wording in other answers. I added clearer excerpt labels and citation instructions to the policy-question interface. Later tests showed better attribution, but this is not automatic verification that every claim is supported.
+During development, I observed citation mismatches and improved the excerpt labels and citation instructions. Later runs showed better attribution.
 
 ### 3. Discovering the inspection tool
 
@@ -321,7 +321,7 @@ python -m app.test_exception
 | `app.test_exception_security` | Exposed tools and input fields; denied, invalid, and unknown-resource submissions create no new records |
 | `app.test_exception` | A successful request is stored as pending with no reviewer assigned |
 
-The final test intentionally creates a fictional request in the local database. It is not read-only. These tests do not require an LLM to answer, and they do not prove resistance to every prompt injection.
+The final test intentionally creates a fictional request in the local database. It is not read-only. These tests check access control, tool exposure, input validation, and request persistence without requiring an LLM response.
 
 For the full MCP discovery output used in the screenshots:
 
