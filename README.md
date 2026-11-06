@@ -367,16 +367,6 @@ Lifecycle audit events omit the free-text reason and proposed controls; those re
 | `data/attack_fixtures/` | Preserved malicious test documents |
 | `docs/screenshots/` | Evidence from the demonstrations |
 
-## What remains outside this project's scope
-
-- **Real identity and isolation:** actor and team values are fixed demo settings. Agent and reviewer share the local user's authority.
-- **Document permissions:** retrieval does not filter documents by user or team access.
-- **Complete injection prevention:** allowed-scope redirection and manipulation of generated answers remain possible.
-- **Guaranteed answer accuracy:** retrieval can miss evidence, and answers can misstate policies or cite the wrong passage. Prompt improvements are not proof of correctness.
-- **Production audit protection:** local records are mutable and not centrally monitored.
-- **Complete workflow safeguards:** request expiry, duplicate prevention, and rate limiting are not implemented.
-- **Fully reproducible dependencies:** the direct MCP dependency is pinned, but transitive dependencies and model tags are not fully locked.
-- **Real infrastructure changes:** there is no cloud deployment, enterprise authentication, or bucket remediation.
 
 ## What I learned
 
