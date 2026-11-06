@@ -373,11 +373,12 @@ Lifecycle audit events omit the free-text reason and proposed controls; those re
 | `data/attack_fixtures/` | Preserved malicious test documents |
 | `docs/screenshots/` | Evidence from the demonstrations |
 
-
 ## What I learned
 
-Connecting an LLM to documents and tools creates a useful application, but also gives untrusted text a route to influence actions.
+Building and testing PolicyGuard helped me apply familiar security principles to an AI application: least privilege, input validation, authorization, controlled writes, and auditability.
 
-The most important result was not making the model refuse the malicious document. It was seeing the model follow that document while the tool still refused to return another team's data.
+The clearest lesson came from replaying the prompt-injection attack after adding server-side authorization. The model still requested the wrong resource, but the tool denied the cross-team lookup before returning configuration data. This demonstrated why access decisions must be enforced independently of model behaviour.
 
-For this project, better prompts helped with answer quality. Permission checks, restricted tool capabilities, explicit confirmation, separate review, and audit records provided different layers of control. Each has limits, and the evidence above makes those limits visible.
+I also learned to separate capabilities deliberately. The agent can inspect permitted resources and create pending exception requests, but its tools cannot approve them. Submission confirmation gives the user a review point, while a separate reviewer workflow checks the request before recording a decision. Transactional audit events preserve a record of those lifecycle changes.
+
+Better prompts improved answer quality, but the strongest security result came from controls in the application itself. The project gave me practical experience identifying trust boundaries, reproducing an attack, implementing targeted controls, and checking what those controls actually prevented.
