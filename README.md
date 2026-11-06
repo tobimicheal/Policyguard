@@ -1,6 +1,6 @@
-# PolicyGuard
+# PolicyGuard: A Local AI Security Lab
 
-## An AI assistant I built, attacked, and hardened
+Exploring RAG, prompt injection, tool authorization, and human review.
 
 PolicyGuard is a cloud-security assistant I built to explore what happens when an AI application can read documents and use tools.
 
