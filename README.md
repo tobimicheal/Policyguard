@@ -333,6 +333,8 @@ python -m app.test_mcp
 
 PolicyGuard uses layered controls to restrict tool execution, enforce resource permissions, separate request creation from review, and record decisions. These checks are implemented in application code rather than relying solely on the model following instructions.
 
+The attack maps to **OWASP Top 10 for LLM Applications (2025), LLM01: Prompt Injection**: malicious instructions in a retrieved document redirected the agent's tool call. The hardened design also addresses **LLM06: Excessive Agency** through restricted tool capabilities, server-side authorization, and keeping approval outside the agent's exposed tools.
+
 | Control | Implementation | Security purpose |
 | --- | --- | --- |
 | Server-side resource authorization | The tool checks resource ownership against the fixed demo team before returning configuration data. | Blocks cross-team access even when prompt injection redirects the model's tool call. |
